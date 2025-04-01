@@ -1,5 +1,5 @@
 # Etapa de construcción
-FROM node:14 AS builder
+FROM node:18 AS builder
 
 WORKDIR /app
 
@@ -17,7 +17,7 @@ COPY . .
 RUN yarn build
 
 # Etapa de producción
-FROM node:14-slim
+FROM node:18-slim
 
 WORKDIR /app
 
