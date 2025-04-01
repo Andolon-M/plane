@@ -15,3 +15,17 @@ out/
 **/out/
 dist/
 **/dist/
+*.log
+**/*.log
+.DS_Store
+**/.DS_Store
+coverage/
+**/coverage/
+.nyc_output/
+**/.nyc_output/
+.cache/
+**/.cache/
+tmp/
+**/tmp/
+temp/
+**/temp/

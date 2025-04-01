@@ -1,16 +1,33 @@
-# Usa una imagen base oficial de Node.js
-FROM node:14
+# Etapa de construcción
+FROM node:14 AS builder
 
-# Establece el directorio de trabajo en /app
 WORKDIR /app
 
-# Copia los archivos del proyecto a la imagen
-COPY . .
+# Copia solo los archivos necesarios para instalar dependencias
+COPY package*.json ./
+COPY yarn.lock ./
 
-# Instala las dependencias del proyecto
+# Instala dependencias
 RUN npm install
 
-# Expone el puerto en el que la app estará corriendo
+# Copia el resto del código
+COPY . .
+
+# Construye la aplicación
+RUN npm run build
+
+# Etapa de producción
+FROM node:14-slim
+
+WORKDIR /app
+
+# Copia solo los archivos necesarios desde la etapa de construcción
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/yarn.lock ./
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+
+# Expone el puerto
 EXPOSE 3000
 
 # Comando para iniciar la aplicación
