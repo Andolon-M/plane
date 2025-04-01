@@ -7,8 +7,8 @@ WORKDIR /app
 COPY package*.json ./
 COPY yarn.lock ./
 
-# Instala dependencias
-RUN npm install
+# Instala dependencias de producción
+RUN npm ci --only=production
 
 # Copia el resto del código
 COPY . .
@@ -23,9 +23,12 @@ WORKDIR /app
 
 # Copia solo los archivos necesarios desde la etapa de construcción
 COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/yarn.lock ./
-COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/public ./public
+
+# Limpia la caché de npm
+RUN npm cache clean --force
 
 # Expone el puerto
 EXPOSE 3000

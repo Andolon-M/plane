@@ -1,4 +1,5 @@
 .git
+.git/**
 *.pyc
 .env
 venv
@@ -29,3 +30,17 @@ tmp/
 **/tmp/
 temp/
 **/temp/
+*.pack
+*.idx
+*.rev
+*.webp
+*.ttf
+*.woff
+*.woff2
+*.eot
+*.svg
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
